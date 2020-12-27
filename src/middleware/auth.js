@@ -10,7 +10,7 @@ const auth = async (req,res, next) => {
         console.log(verifyUser);
 
         const user = await UserRegistration.findOne({_id : verifyUser._id});
-        console.log(user.fname);
+       // console.log(user.fname);
 
         req.token = token;
         req.user = user;

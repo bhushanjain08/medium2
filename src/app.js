@@ -11,20 +11,28 @@ app.use(express.json());
 app.use(cookieParser());
 const UserRegistration = require("./models/registration");
 
-const regRouter = require("../src/routers/regRouter");
+const regRouter = require("./controller/regRouter");
 app.use(regRouter);
 
-const loginRouter = require("../src/routers/login");
+const loginRouter = require("./controller/login");
 app.use(loginRouter);
 
-const homeRouter = require("../src/routers/home");
+const homeRouter = require("./controller/home");
 app.use(homeRouter);
+
+const followRouter = require("./controller/follow");
+app.use(followRouter);
+
+const publicationRouter = require("./controller/publication");
+app.use(publicationRouter);
+
+const blog = require("./controller/blogPost");
+app.use(blog);
 
 app.get("/logout", auth, async(req,res) => {
     try {
 
         req.user.tokens = [];
-
         res.clearCookie("jwt");
         await req.user.save();
         console.log("logout page successfully");

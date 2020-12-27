@@ -1,13 +1,14 @@
 const express = require("express");
 const regRouter = new express.Router();
-
-
+const upload = require('../middleware/upload');
 const UserRegistration = require("../models/registration");
 
-regRouter.post("/registration", async (req, res) => {
+regRouter.post("/registration",upload.single('image') , async (req, res) => {    
     try {
+
         const addUser = new UserRegistration(req.body);
-        console.log(req.body);
+        //console.log(req.body);
+        //console.log(req.file.path  );
 
         const token = await addUser.generateAuthToken()
 
@@ -15,23 +16,23 @@ regRouter.post("/registration", async (req, res) => {
         res.cookie("jwt", token, {
             expires: new Date(Date.now() + 600000)
         });
-        console.log(cookie);
 
         const insertUser = await addUser.save();
         res.status(201).send(insertUser);
     } catch (error) {
         res.status(400).send(error);
+        console.log(error);
     }
 });
 
-regRouter.get("/", async (req, res) => {
-    try {
-        const getUser = await UserRegistration.find({});
-        res.send(getUser);
-    } catch (error) {
-        res.status(400).send(error);
-    }
-});
+// regRouter.get("/", async (req, res) => {
+//     try {
+//         const getUser = await UserRegistration.find({});
+//         res.send(getUser);
+//     } catch (error) {
+//         res.status(400).send(error);
+//     }
+// });
 
 //get by id
 regRouter.get("/user/:id", async (req, res) => {

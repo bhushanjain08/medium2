@@ -12,13 +12,16 @@ const regSchema = new mongoose.Schema({
     },
     lname: {
         type: String,
-        required: true
+      //  required: true
     },
     dob: {
         type: Date
     },
     country: {
         type: String
+    },
+    image: {
+        type : String
     },
     email: {
         type: String,
@@ -34,13 +37,40 @@ const regSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    followers: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    ],
+    following: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    ],
+    bio : {
+        type: String
+    }
+    ,
     tokens: [{
         token: {
             type: String,
             required: true
         }
     }]
+    
 })
+
+regSchema.methods.follow = function (user_id) {
+    if (this.following.indexOf(user_id) === -1) {
+        this.following.push(user_id)        
+    }
+    return this.save()
+}
+regSchema.methods.addFollower = function (fs) {
+    this.followers.push(fs)        
+}
 
 // generating token
 regSchema.methods.generateAuthToken = async function () {
