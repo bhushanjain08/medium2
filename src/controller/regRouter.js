@@ -7,9 +7,6 @@ regRouter.post("/registration",upload.single('image') , async (req, res) => {
     try {
 
         const addUser = new UserRegistration(req.body);
-        //console.log(req.body);
-        //console.log(req.file.path  );
-
         const token = await addUser.generateAuthToken()
 
         //creating cookie

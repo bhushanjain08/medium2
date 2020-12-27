@@ -13,15 +13,12 @@ loginRouter.post("/login", async (req, res) => {
         const isMatch = await bcrypt.compare(pwd, useremail.pwd);
 
         const token = await useremail.generateAuthToken();
-        //console.log(token);
+
 
         //creating cookie
         res.cookie("jwt", token, {
             expires: new Date(Date.now() + 600000)
         });
-
-        //console.log(`Cookie = ${req.cookies.jwt}`);
-
         if (isMatch) {
             res.status(201).send("Login successful");
         } else {

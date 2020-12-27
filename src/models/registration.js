@@ -12,8 +12,7 @@ const regSchema = new mongoose.Schema({
     },
     lname: {
         type: String,
-      //  required: true
-    },
+     },
     dob: {
         type: Date
     },
@@ -88,10 +87,8 @@ regSchema.methods.generateAuthToken = async function () {
 //converting password into hash
 regSchema.pre("save", async function (next) {
     if (this.isModified("pwd")) {
-        // console.log(`current pws is ${this.pwd}`);
-        this.pwd = await bcrypt.hash(this.pwd, 10);
-        // console.log(`current pws is ${this.pwd}`);
-    }
+         this.pwd = await bcrypt.hash(this.pwd, 10);
+         }
     next();
 
 })

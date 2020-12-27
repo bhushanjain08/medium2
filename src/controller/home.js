@@ -36,11 +36,9 @@ homeRouter.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
  */
 homeRouter.get("/home", auth, async (req, res) => {
     try {
-        const blogs = await blogPost.find({});
-        
+        const blogs = await blogPost.find({});   
         res.status(201).send(`HomePage 
-        ${req.user.fname} ${req.user.email} ${blogs} `);
-       
+        ${req.user.fname} ${req.user.email} ${blogs} `);      
     } catch (error) {
         res.send(error);
     }
@@ -51,8 +49,6 @@ homeRouter.get("/home/:id", auth, async (req, res) => {
     try {   
         const _id = req.params.id;
         const blogs = await blogPost.findById({_id});
-        // res.send(blogs);
-       // console.log(req.user.email);
         res.status(201).send(`HomePage 
            ${req.user.fname} ${req.user.email} ${blogs} `);
     } catch (error) {
