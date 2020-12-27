@@ -34,7 +34,7 @@ homeRouter.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
  *   '200':
  *     description: a successful response
  */
-homeRouter.get("/home", async (req, res) => {
+homeRouter.get("/home", auth, async (req, res) => {
     try {
         const blogs = await blogPost.find({});
         
